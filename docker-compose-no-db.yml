@@ -1,0 +1,28 @@
+name: 'bhm-app'
+services:
+    application:
+        build:
+            context: ./script/resources/docker
+            dockerfile: 'Dockerfile.${APP_ENV}'
+        image: 'bhm-app'
+        container_name: '${APP_ENV}-bhm-app'
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        ports:
+            - '${APP_PORT:-80}:80'
+            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
+        environment:
+            XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
+            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
+        volumes:
+            - '.:/var/www/html'
+        networks:
+            - bhm-network
+networks:
+    bhm-network:
+        name: '${APP_ENV}-bhm-network'
+        driver: bridge
+volumes:
+    bhm-db-data:
+        name: '${APP_ENV}-bhm-db-data'
+        driver: local

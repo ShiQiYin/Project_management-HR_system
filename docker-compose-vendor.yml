@@ -1,0 +1,14 @@
+name: 'composer'
+services:
+    composer:
+        image: 'composer:latest'
+        container_name: 'composer'
+        volumes:
+            - '.:/app'
+        networks:
+            - composer-network
+        command: 'composer install'
+networks:
+    composer-network:
+        name: 'composer-network'
+        driver: bridge

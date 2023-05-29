@@ -1,0 +1,110 @@
+/*resources\css\app.css*/
+@import "../../vendor/filament/filament/resources/css/app.css";
+
+/* Sidebar build */
+.filament-sidebar {
+    @apply bg-gray-900;
+}
+
+.filament-sidebar-nav {
+    @apply from-primary-950 to-primary-950 dark:bg-gray-800 dark:border-gray-700 dark:from-gray-800 dark:to-gray-800;
+}
+
+.filament-sidebar-nav .border-t {
+    @apply border-primary-950;
+}
+
+.filament-sidebar-item {
+    @apply text-white;
+}
+
+.filament-sidebar-item:focus-visible {
+    @apply bg-white  text-white;
+}
+
+.filament-sidebar-close-button {
+    @apply text-white;
+}
+
+.filament-sidebar-collapse-button {
+    @apply text-white;
+}
+
+.filament-sidebar-item .inline-flex {
+    @apply text-black bg-white  dark:text-black;
+}
+
+.filament-sidebar-collapse-button .focus {
+    @apply bg-white;
+}
+
+.filament-sidebar-item-active .inline-flex {
+    @apply bg-white;
+}
+
+.filament-sidebar-group svg {
+    @apply text-white;
+}
+
+.tracking-wider {
+    @apply text-white;
+}
+
+.filament-brand {
+    @apply text-white;
+}
+
+/* Main background */
+.filament-main {
+    @apply bg-gray-50
+}
+
+.filament-main-content{
+    @apply bg-gray-50 text-gray-600;
+}
+
+.filament-body {
+    @apply bg-gray-50;
+}
+
+.filament-main-footer {
+    @apply bg-gray-50;
+}
+
+/* Form build */
+.filament-forms-section-header-wrapper {
+    @apply bg-gray-800 text-white
+}
+
+.filament-forms-tabs-component-header {
+    @apply bg-gray-800 text-white
+
+}
+
+.bg-gray-200 {
+    @apply bg-gray-400 text-white
+}
+
+/* Button */
+.filament-button {
+    @apply bg-primary-950;
+}
+
+/* Description */
+.text-gray-500 {
+    @apply text-black
+}
+
+
+/* Login */
+.min-h-screen {
+    /* @apply bg-gray-900 ; */
+}
+
+.w-full {
+    /* @apply bg-gray-50; */
+}
+
+.login-background {
+    @apply bg-gray-900 ;
+}

@@ -1,0 +1,1 @@
+<img {{ $attributes(['class' => '']) }} src="/images/logo.svg" />

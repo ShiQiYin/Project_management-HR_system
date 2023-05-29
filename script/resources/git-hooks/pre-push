@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+CURRENT=$(git branch --show-current)
+case "${CURRENT}" in
+    development)
+        echo
+        echo "You cannot push changes directly to the development branch!"
+        echo "Raise a pull request from your own branch to the development branch instead!"
+        echo
+        exit 1;;
+    test)
+        echo
+        echo "You cannot push changes directly to the test branch!"
+        echo "Raise a pull request from the development branch to the test branch instead!"
+        echo
+        exit 1;;
+    master)
+        echo
+        echo "You cannot push changes directly to the master branch!"
+        echo "Raise a pull request from the test branch to the master branch instead!"
+        echo
+        exit 1;;
+esac
+
+exit 0

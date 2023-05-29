@@ -1,0 +1,9 @@
+FROM webdevops/php-nginx:8.1-alpine
+
+RUN apk update
+RUN apk add yarn
+RUN apk add composer
+
+COPY php.ini.dev /opt/docker/etc/php.ini
+COPY vhost.conf /opt/docker/etc/nginx/vhost.conf
+COPY 10-location-root.conf /opt/docker/etc/nginx/vhost.common.d/10-location-root.conf

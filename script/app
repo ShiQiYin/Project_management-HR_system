@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+function display_help {
+    echo
+    echo "${YELLOW}Usage:${NC}"
+    echo "  app COMMAND [OPTIONS]"
+    echo
+    echo "${YELLOW}Commands:${NC}"
+    echo "  ${GREEN}up [-f]${NC}        Start up the application (option: f=migrate:fresh)"
+    echo "  ${GREEN}down${NC}           Bring down the application"
+    echo "  ${GREEN}test${NC}           Run unit test in the application container"
+    echo "  ${GREEN}exec${NC}           Execute command in the application container"
+    echo "  ${GREEN}version [<X>]${NC}  Get or set the application version"
+    echo "  ${GREEN}branch [<X>]${NC}   Switch the Git branch to X"
+    echo
+    echo "Execute the command below to create an alias for \"app\""
+    echo "  ${GREEN}alias app='bash script/app'${NC}"
+    echo
+}
+
+# Set up
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE}")" &>/dev/null && pwd)
+source "${SCRIPT_DIR}/resources/util.sh"
+
+COMMAND="${1}"
+shift 1
+
+case "${COMMAND}" in
+    up) app_up "${@}";;
+    down) app_down;;
+    test) app_test "${@}";;
+    exec) app_exec "${@}";;
+    version) app_version "${@}";;
+    branch) app_branch "${@}";;
+esac
+
+display_help

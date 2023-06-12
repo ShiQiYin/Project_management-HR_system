@@ -1,11 +1,11 @@
-name: 'bhm-app'
+name: 'hms-app'
 services:
     application:
         build:
             context: ./script/resources/docker
             dockerfile: 'Dockerfile.${APP_ENV}'
-        image: 'bhm-app'
-        container_name: '${APP_ENV}-bhm-app'
+        image: 'hms-app'
+        container_name: '${APP_ENV}-hms-app'
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
@@ -17,12 +17,12 @@ services:
         volumes:
             - '.:/var/www/html'
         networks:
-            - bhm-network
+            - hms-network
 networks:
-    bhm-network:
-        name: '${APP_ENV}-bhm-network'
+    hms-network:
+        name: '${APP_ENV}-hms-network'
         driver: bridge
 volumes:
-    bhm-db-data:
-        name: '${APP_ENV}-bhm-db-data'
+    hms-db-data:
+        name: '${APP_ENV}-hms-db-data'
         driver: local

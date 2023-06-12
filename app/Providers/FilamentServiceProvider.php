@@ -54,18 +54,24 @@ class FilamentServiceProvider extends ServiceProvider
                             ->activeIcon('heroicon-s-home')
                             ->isActiveWhen(fn(): bool => request()->routeIs('filament.pages.dashboard')),
                     ]),
-                NavigationGroup::make('Development Template')
+                NavigationGroup::make('')
                     ->items([
                         ...CustomerResource::getNavigationItems()
                     ]),
                 NavigationGroup::make('Settings')
                     ->items([
                         $user->can('update-password') ?
-                            NavigationItem::make('Update Password')
+                            NavigationItem::make('Account Management')
                                 ->url($update_password_url)
                                 ->icon('heroicon-o-cog')
                                 ->activeIcon('heroicon-s-cog')
                                 ->isActiveWhen(fn() : bool => request()->fullUrl() == $update_password_url) : null,
+                        $user->can('update-password') ?
+                        NavigationItem::make('Update Password')
+                            ->url($update_password_url)
+                            ->icon('heroicon-o-cog')
+                            ->activeIcon('heroicon-s-cog')
+                            ->isActiveWhen(fn() : bool => request()->fullUrl() == $update_password_url) : null,
                     ]),
             ]);
         });

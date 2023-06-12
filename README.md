@@ -44,11 +44,11 @@ If you choose to run MySQL in a container, follow the steps below to initialize 
 If you choose to install MySQL locally, run the commands below after the installation.
 
 ```
-CREATE SCHEMA bhm_app;
+CREATE SCHEMA hms_app;
 
-CREATE USER bhm_app_user@'%' IDENTIFIED WITH mysql_native_password BY 'password';
+CREATE USER hms_app_user@'%' IDENTIFIED WITH mysql_native_password BY 'password';
 
-GRANT ALL PRIVILEGES ON bhm_app.* TO bhm_app_user@'%';
+GRANT ALL PRIVILEGES ON hms_app.* TO hms_app_user@'%';
 ```
 
 Update the following configurations in the `.env` file:

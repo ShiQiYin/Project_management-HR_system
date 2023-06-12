@@ -1,11 +1,11 @@
-name: 'bhm-app'
+name: 'hms-app'
 services:
     application:
         build:
             context: ./script/resources/docker
             dockerfile: 'Dockerfile.${APP_ENV}'
-        image: 'bhm-app'
-        container_name: '${APP_ENV}-bhm-app'
+        image: 'hms-app'
+        container_name: '${APP_ENV}-hms-app'
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         ports:
@@ -17,13 +17,13 @@ services:
         volumes:
             - '.:/var/www/html'
         networks:
-            - bhm-network
+            - hms-network
         depends_on:
             database:
                 condition: service_healthy
     database:
         image: 'mysql/mysql-server:8.0'
-        container_name: '${APP_ENV}-bhm-mysql'
+        container_name: '${APP_ENV}-hms-mysql'
         ports:
             - '${FORWARD_DB_PORT:-3306}:3306'
         environment:
@@ -31,22 +31,22 @@ services:
             MYSQL_DATABASE: '${DB_DATABASE}'
             MYSQL_USER: '${DB_USERNAME}'
             MYSQL_PASSWORD: '${DB_PASSWORD}'
-            MYSQL_RANDOM_ROOT_PASSWORD: 1
+            MYSQL_RANDOM_ROOT_PASSWORD: 1x
             MYSQL_ONETIME_PASSWORD: 1
         volumes:
-            - 'bhm-db-data:/var/lib/mysql'
+            - 'hms-db-data:/var/lib/mysql'
         networks:
-            - bhm-network
+            - hms-network
         healthcheck:
             test: mysql "${DB_DATABASE}" -u "${DB_USERNAME}" --password="${DB_PASSWORD}" --silent --execute "SELECT 1;"
             interval: 5s
             timeout: 120s
             retries: 24
 networks:
-    bhm-network:
-        name: '${APP_ENV}-bhm-network'
+    hms-network:
+        name: '${APP_ENV}-hms-network'
         driver: bridge
 volumes:
-    bhm-db-data:
-        name: '${APP_ENV}-bhm-db-data'
+    hms-db-data:
+        name: '${APP_ENV}-hms-db-data'
         driver: local

@@ -9,6 +9,7 @@ use Filament\Navigation\NavigationBuilder;
 use Filament\Navigation\NavigationItem;
 
 use App\Filament\Resources\Customer\CustomerResource;
+use App\Filament\Resources\Leave\LeaveResource;
 use App\Filament\Resources\User\UserResource;
 use Filament\Navigation\NavigationGroup;
 
@@ -56,23 +57,27 @@ class FilamentServiceProvider extends ServiceProvider
                     ]),
                 NavigationGroup::make('')
                     ->items([
-                        ...CustomerResource::getNavigationItems()
+                        // ...CustomerResource::getNavigationItems(),
+                        ...LeaveResource::getNavigationItems()
                     ]),
                 NavigationGroup::make('Settings')
                     ->items([
                         $user->can('update-password') ?
-                            NavigationItem::make('Account Management')
+                        NavigationItem::make('Update Password')
                                 ->url($update_password_url)
                                 ->icon('heroicon-o-cog')
                                 ->activeIcon('heroicon-s-cog')
                                 ->isActiveWhen(fn() : bool => request()->fullUrl() == $update_password_url) : null,
-                        $user->can('update-password') ?
-                        NavigationItem::make('Update Password')
-                            ->url($update_password_url)
-                            ->icon('heroicon-o-cog')
-                            ->activeIcon('heroicon-s-cog')
-                            ->isActiveWhen(fn() : bool => request()->fullUrl() == $update_password_url) : null,
                     ]),
+                $user->can('update-password') ? 
+                    NavigationGroup::make('Admin')
+                        ->items([
+                                NavigationItem::make('Account Management')
+                                    ->url($update_password_url)
+                                    ->icon('heroicon-o-cog')
+                                    ->activeIcon('heroicon-s-cog')
+                                    ->isActiveWhen(fn() : bool => request()->fullUrl() == $update_password_url)
+                        ]): null
             ]);
         });
     }

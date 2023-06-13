@@ -36,13 +36,10 @@ class CustomerResource extends Resource
              Section::make('This is description section')
                     ->description('Description')
                     ->schema([
-                        Radio::make('feedback')
-                            ->label('Do you like this post?')
-                            ->boolean()
-                            ->disabled(),
-                        Forms\Components\TextInput::make('name')->autofocus()->label('Name')-> disabled(),
-                        Forms\Components\TextInput::make('name')->autofocus()->label('status')-> disabled(),
-
+                        Forms\Components\TextInput::make('category')->autofocus()->required()->label('Category'),
+                        Forms\Components\DatePicker::make('start_date')->required()->label('Start Date'),
+                        Forms\Components\DatePicker::make('end_date')->required()->label('End Date'),
+                        Forms\Components\TextInput::make('reason')->label('Reason'),
                     // ]),
                     ]),
             Grid::make([

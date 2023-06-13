@@ -15,11 +15,10 @@ return new class extends Migration
     {
         Schema::create('leaves', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('name');
-            $table->string('email')->nullable();
-            $table->string('type')->nullable();
-            $table->date('birthday')->nullable();
-            $table->string('attachment')->nullable();
+            $table->string('category');
+            $table->string('start_date');
+            $table->string('end_date');
+            $table->date('reason')->nullable();
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
         });
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('customers');
+        Schema::dropIfExists('leaves');
     }
 };

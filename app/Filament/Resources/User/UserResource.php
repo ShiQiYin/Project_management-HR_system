@@ -32,6 +32,9 @@ class UserResource extends Resource
             Grid::make([
                 'default' => 1
             ])->schema([
+                TextInput::make('userid')->label('User Id')->disabled(),
+                TextInput::make('email')->label('Email'),
+                TextInput::make('name')->label('Name'),
                 TextInput::make('password')
                     ->label('Password')
                     ->password()

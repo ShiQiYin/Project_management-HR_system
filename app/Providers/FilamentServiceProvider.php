@@ -64,7 +64,7 @@ class FilamentServiceProvider extends ServiceProvider
                 NavigationGroup::make('Settings')
                     ->items([
                         $user->can('update-password') ?
-                        NavigationItem::make('Update Password')
+                        NavigationItem::make('Update Personal Information')
                                 ->url($update_password_url)
                                 ->icon('heroicon-o-cog')
                                 ->activeIcon('heroicon-s-cog')

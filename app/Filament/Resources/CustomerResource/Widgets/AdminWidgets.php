@@ -11,9 +11,9 @@ class AdminWidgets extends BaseWidget
     protected function getCards(): array
     {
         return [
-            Card::make('Total Customers', Customer::count()),
-            Card::make('Customers Registered Today', Customer::whereDate('created_at', today())->count()),
-            Card::make('Tasks Created Today', Customer::whereDate('created_at', today())->count()),
+            // Card::make('Total Customers', Customer::count()),
+            // Card::make('Customers Registered Today', Customer::whereDate('created_at', today())->count()),
+            // Card::make('Tasks Created Today', Customer::whereDate('created_at', today())->count()),
         ];
     }
 

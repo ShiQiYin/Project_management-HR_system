@@ -15,7 +15,7 @@ class EditUser extends EditRecord
 
     protected static ?string $modelLabel = 'User';
 
-    protected static ?string $title = 'Update Password';
+    protected static ?string $title = 'Update Personal Information';
 
     protected function getActions(): array
     {

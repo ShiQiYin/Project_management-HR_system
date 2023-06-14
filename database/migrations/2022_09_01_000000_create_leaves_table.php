@@ -16,11 +16,12 @@ return new class extends Migration
         Schema::create('leaves', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('category');
-            $table->string('start_date');
-            $table->string('end_date');
-            $table->date('reason')->nullable();
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->string('reason')->nullable();
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
+            $table->string('status')->default('pending');
         });
     }
 

@@ -15,6 +15,7 @@ use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
+use Carbon\Carbon;
 
 
 class LeaveResource extends Resource
@@ -47,7 +48,10 @@ class LeaveResource extends Resource
                 ])
                 ->label("Leave Type"),
                 Forms\Components\DatePicker::make('start_date')->required()->displayFormat('d/m/Y')->label('Start Date'),
-                Forms\Components\DatePicker::make('end_date')->required()->displayFormat('d/m/Y')->label('End Date'),
+                Forms\Components\DatePicker::make('end_date')->required()->displayFormat('d/m/Y')->minDate('start_date')->afterOrEqual('start_date')->label('End Date')->afterStateUpdated(function (Closure $set, $state) {
+                    $set('days', Carbon::parse($state)->days);
+                }),
+                Forms\Components\TextInput::make('days')->disabled()->dehydrated(false)->label('day(s)'),
                 Forms\Components\TextInput::make('reason')->required()->label('Reason'),
             // ]),
             ]),
@@ -62,6 +66,7 @@ class LeaveResource extends Resource
                 Tables\Columns\TextColumn::make('start_date')->label('Start Date'),
                 Tables\Columns\TextColumn::make('end_date')->label('End Date'),
                 Tables\Columns\TextColumn::make('reason')->label('Reason'),
+                Tables\Columns\TextColumn::make('status')->label('Status'),
             ])
             ->filters([
                 // Filter::make('individuals', fn ($query) => $query->where('type', 'individual')),

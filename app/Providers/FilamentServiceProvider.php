@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Filament\Resources\Account\AccountResource;
 use Filament\Facades\Filament;
 use Filament\Navigation\UserMenuItem;
 use Illuminate\Support\ServiceProvider;
@@ -72,11 +73,13 @@ class FilamentServiceProvider extends ServiceProvider
                 $user->can('update-password') ? 
                     NavigationGroup::make('Admin')
                         ->items([
-                                NavigationItem::make('Account Management')
-                                    ->url($update_password_url)
-                                    ->icon('heroicon-o-cog')
-                                    ->activeIcon('heroicon-s-cog')
-                                    ->isActiveWhen(fn() : bool => request()->fullUrl() == $update_password_url)
+                            ...AccountResource::getNavigationItems()
+
+                                // NavigationItem::make('Account Management')
+                                //     ->url($update_password_url)
+                                //     ->icon('heroicon-o-cog')
+                                //     ->activeIcon('heroicon-s-cog')
+                                //     ->isActiveWhen(fn() : bool => request()->fullUrl() == $update_password_url)
                         ]): null
             ]);
         });

@@ -18,11 +18,14 @@ class EditLeave extends EditRecord
     protected function getActions(): array
     {
         return [
-            Actions\EditAction::make()->mutateFormDataUsing(function (array $data): array {
-                $data['user_id'] = auth()->user->id;
-                return $data;
-            }),
+            Actions\EditAction::make(),
         ];
+    }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        $data['user_id'] = auth()->user()->id;
+        return $data;
     }
 
     protected function beforeFill()

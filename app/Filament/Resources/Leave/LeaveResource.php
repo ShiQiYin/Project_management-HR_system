@@ -56,14 +56,14 @@ class LeaveResource extends Resource
                     ->label('End Date')
                     ->reactive()
                     ->afterStateUpdated(function (Closure $set, $get, $state) {
-                        $set('days',  Carbon::parse($get('end_date'))->diffInDays(Carbon::parse($get('start_date'))) );
+                        $set('days',  Carbon::parse($get('end_date'))->diffInDays(Carbon::parse($get('start_date'))) + 1 );
                     })    
                     ->afterStateHydrated(function (Closure $set, $get, $state) {
-                        $set('days',  Carbon::parse($get('end_date'))->diffInDays(Carbon::parse($get('start_date'))) + 1);
+                        $set('days',  Carbon::parse($get('end_date'))->diffInDays(Carbon::parse($get('start_date'))) + 1 );
                     }),
                 Forms\Components\TextInput::make('days')->disabled()->dehydrated(false)->label('Day(s)'),
                 Forms\Components\TextInput::make('reason')->required()->label('Reason'),
-                Forms\Components\TextInput::make('user_id')->required()->label('User Id')->default(auth()->user()->id)->hidden(),
+                // Forms\Components\TextInput::make('user_id')->required()->label('User Id')->default(auth()->user()->id)->hidden(),
 
                 FileUpload::make('attachment')
                     ->disk('local')

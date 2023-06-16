@@ -14,11 +14,14 @@ class CreateLeave extends CreateRecord
     protected function getActions(): array
     {
         return [
-            Actions\CreateAction::make()->mutateFormDataUsing(function (array $data): array {
-                $data['user_id'] = auth()->user->id;
-                return $data;
-            }),
+            Actions\CreateAction::make(),
         ];
+    }
+
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['user_id'] = auth()->user()->id;
+        return $data;
     }
 
     protected function beforeFill()

@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('leave_type', function (Blueprint $table) {
+        Schema::create('leaves_type', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->foreignUuid('user_id')->nullable()->index();
             $table->integer('al');
@@ -21,10 +21,11 @@ return new class extends Migration
             $table->integer('hl');
             $table->integer('pl');
             $table->integer('cl');
-            $table->timestamps();
+            $table->timestamp('created_at')->nullable();
+            $table->timestamp('updated_at')->nullable();
         });
 
-        Schema::table('leave_type',function ($table) {
+        Schema::table('leaves_type',function ($table) {
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
@@ -36,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('teams');
+        Schema::dropIfExists('leaves_type');
     }
 };

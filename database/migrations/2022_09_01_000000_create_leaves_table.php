@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('leaves', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->string('id')->primary();
+            $table->foreignUuid('user_id')->nullable()->index();
             $table->string('category');
             $table->date('start_date');
             $table->date('end_date');
@@ -22,6 +23,10 @@ return new class extends Migration
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
             $table->string('status')->default('pending');
+        });
+
+        Schema::table('leaves',function ($table) {
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

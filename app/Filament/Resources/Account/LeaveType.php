@@ -6,7 +6,7 @@ use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Leave extends Model
+class LeaveType extends Model
 {
 
     use HasFactory;
@@ -18,9 +18,9 @@ class Leave extends Model
      * @var string[]
      */
     protected $fillable = [
-        'category', 'start_date', 'end_date', 'reason', 'status'
+        'al', 'sl', 'hl', 'pl', 'cl'
     ];
-
+    
     /**
      * The attributes that should be hidden for serialization.
      *

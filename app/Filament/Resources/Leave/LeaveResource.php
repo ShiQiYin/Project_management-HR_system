@@ -47,7 +47,7 @@ class LeaveResource extends Resource
 
                 ])
                 ->label("Leave Type"),
-                Forms\Components\DatePicker::make('start_date')->required()->displayFormat('d/m/Y')->label('Start Date'),
+                Forms\Components\DatePicker::make('start_date')->required()->displayFormat('d/m/Y')->minDate('today')->label('Start Date'),
                 Forms\Components\DatePicker::make('end_date')->required()->displayFormat('d/m/Y')->minDate('start_date')->afterOrEqual('start_date')->label('End Date'),
                 Forms\Components\TextInput::make('days')->disabled()->dehydrated(false)->label('Day(s)'),
                 Forms\Components\TextInput::make('reason')->required()->label('Reason'),

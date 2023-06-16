@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Resources\Leave;
+namespace App\Filament\Resources\PendingLeave;
 
 use Filament\Forms;
-use App\Filament\Resources\Leave\Pages;
+use App\Filament\Resources\PendingLeave\Pages;
 use App\Models\Leave;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -18,13 +18,15 @@ use Filament\Forms\Components\Select;
 use Closure;
 use Carbon\Carbon;
 
-class LeaveResource extends Resource
+class PendingLeaveResource extends Resource
 {
     protected static ?string $model = Leave::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
-    protected static ?string $navigationLabel = 'Leaves';
+    protected static ?string $navigationLabel = 'Pending Leaves';
+
+    public static ?string $slug = 'pendingleave';
 
 
     public function isTableSearchable(): bool
@@ -37,6 +39,7 @@ class LeaveResource extends Resource
         return $form->schema([
             Section::make('Request Leave')
             ->schema([
+                Forms\Components\TextInput::make('user_id')->disabled()->label('user_id'),
                 Select::make('category')
                 ->options([
                     'al' => 'Annual',
@@ -44,11 +47,11 @@ class LeaveResource extends Resource
                     'hl' => 'Hospitalisation',
                     'pl' => 'Paternity',
                     'cl' => 'Compassionate leave',
-
                 ])
+                ->disabled()
                 ->label("Leave Type"),
-                Forms\Components\DatePicker::make('start_date')->reactive()->required()->minDate('today')->displayFormat('d/m/Y')->label('Start Date'),
-                Forms\Components\DatePicker::make('end_date')
+                Forms\Components\DatePicker::make('start_date')->disabled()->reactive()->required()->minDate('today')->displayFormat('d/m/Y')->label('Start Date'),
+                Forms\Components\DatePicker::make('end_date')->disabled()
                     ->required()
                     ->displayFormat('d/m/Y')
                     ->minDate('start_date')
@@ -59,19 +62,17 @@ class LeaveResource extends Resource
                         $set('days',  Carbon::parse($get('end_date'))->diffInDays(Carbon::parse($get('start_date'))) );
                     })    
                     ->afterStateHydrated(function (Closure $set, $get, $state) {
-                        $set('days',  Carbon::parse($get('end_date'))->diffInDays(Carbon::parse($get('start_date'))) + 1);
+                        $set('days',  Carbon::parse($get('end_date'))->diffInDays(Carbon::parse($get('start_date'))) );
                     }),
                 Forms\Components\TextInput::make('days')->disabled()->dehydrated(false)->label('Day(s)'),
-                Forms\Components\TextInput::make('reason')->required()->label('Reason'),
-                Forms\Components\TextInput::make('user_id')->required()->label('User Id')->default(auth()->user()->id)->hidden(),
+                Forms\Components\TextInput::make('reason')->required()->label('Reason')->disabled(),
+                Select::make('status')
+                ->options([
+                    'reject' => 'reject',
+                    'approved' => 'approved',
 
-                FileUpload::make('attachment')
-                    ->disk('local')
-                    ->directory(`leave`)
-                    ->preserveFilenames()
-                    ->enableOpen()
-                    ->enableDownload()
-                    ->visibility('public')
+                ])
+                ->label("Status"),
             // ]),
             ]),
         ]);
@@ -81,6 +82,7 @@ class LeaveResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('user_id')->label('user_id'),
                 Tables\Columns\TextColumn::make('category')->label('category'),
                 Tables\Columns\TextColumn::make('start_date')->label('Start Date'),
                 Tables\Columns\TextColumn::make('end_date')->label('End Date'),
@@ -122,9 +124,9 @@ class LeaveResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListLeaves::route('/'),
-            'create' => Pages\CreateLeave::route('/create'),
-            'edit' => Pages\EditLeave::route('/{record}/edit'),
+            'index' => Pages\ListPendingLeaves::route('/'),
+            'create' => Pages\CreatePendingLeave::route('/create'),
+            'edit' => Pages\EditPendingLeave::route('/{record}/edit'),
         ];
     }
 }

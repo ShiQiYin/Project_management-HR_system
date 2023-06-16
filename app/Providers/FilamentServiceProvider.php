@@ -11,6 +11,7 @@ use Filament\Navigation\NavigationItem;
 
 use App\Filament\Resources\Customer\CustomerResource;
 use App\Filament\Resources\Leave\LeaveResource;
+use App\Filament\Resources\PendingLeave\PendingLeaveResource;
 use App\Filament\Resources\User\UserResource;
 use Filament\Navigation\NavigationGroup;
 
@@ -59,7 +60,9 @@ class FilamentServiceProvider extends ServiceProvider
                 NavigationGroup::make('')
                     ->items([
                         // ...CustomerResource::getNavigationItems(),
-                        ...LeaveResource::getNavigationItems()
+                        ...LeaveResource::getNavigationItems(),
+                        ...PendingLeaveResource::getNavigationItems(),
+                        // $user->can('pending-leave') ? PendingLeaveResource::getNavigationItems() : null, 
                     ]),
                 NavigationGroup::make('Settings')
                     ->items([

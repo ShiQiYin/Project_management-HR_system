@@ -18,7 +18,7 @@ class Leave extends Model
      * @var string[]
      */
     protected $fillable = [
-        'category', 'start_date', 'end_date', 'reason', 'status'
+        'user_id', 'category', 'start_date', 'end_date', 'reason', 'status'
     ];
 
     /**

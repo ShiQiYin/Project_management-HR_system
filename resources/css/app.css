@@ -87,8 +87,13 @@
 
 /* Button */
 .filament-button {
+    @apply bg-primary-800;
+}
+
+.filament-button {
     @apply bg-primary-950;
 }
+
 
 /* Description */
 .text-gray-500 {

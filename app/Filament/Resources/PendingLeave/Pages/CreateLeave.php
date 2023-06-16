@@ -1,25 +1,15 @@
 <?php
 
-namespace App\Filament\Resources\Leave\Pages;
+namespace App\Filament\Resources\PendingLeave\Pages;
 
-use App\Filament\Resources\Leave\LeaveResource;
+use App\Filament\Resources\PendingLeave\PendingLeaveResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\CreateRecord;
 
-class CreateLeave extends CreateRecord
+class CreatePendingLeave extends CreateRecord
 {
-    protected static string $resource = LeaveResource::class;
+    protected static string $resource = PendingLeaveResource::class;
     protected static string $view = 'filament::resources.leave-resource.pages.create-record';
-
-    protected function getActions(): array
-    {
-        return [
-            Actions\CreateAction::make()->mutateFormDataUsing(function (array $data): array {
-                $data['user_id'] = auth()->user->id;
-                return $data;
-            }),
-        ];
-    }
 
     protected function beforeFill()
     {

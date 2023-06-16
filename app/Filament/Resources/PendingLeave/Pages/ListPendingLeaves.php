@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Filament\Resources\Leave\Pages;
+namespace App\Filament\Resources\PendingLeave\Pages;
 
-use App\Filament\Resources\Leave\LeaveResource;
+use App\Filament\Resources\PendingLeave\PendingLeaveResource;
 use App\Filament\Resources\Leave\Widgets\LeaveOverview;
 use App\Models\Leave;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\ListRecords;
 use App\Filament\Resources\CustomerResource;
 
-class ListLeaves extends ListRecords
+class ListPendingLeaves extends ListRecords
 {
-    protected static string $resource = LeaveResource::class;
-    protected static string $view = 'filament::resources.leave-resource.pages.list-records';
+    protected static string $resource = PendingLeaveResource::class;
+    protected static string $view = 'filament::resources.pending-leave-resource.pages.list-records';
     protected static bool $shouldRegisterNavigation = false;
 
 
@@ -24,14 +24,14 @@ class ListLeaves extends ListRecords
     protected function getActions(): array
     {
         return [
-            Actions\CreateAction::make()
+            Actions\CreateAction::make(),
         ];
     }
 
     protected function getHeaderWidgets(): array
     {
         return [
-            CustomerResource\Widgets\LeavesWidgets::class,
+            CustomerResource\Widgets\PendingLeavesWidgets::class,
         ];
     }
 

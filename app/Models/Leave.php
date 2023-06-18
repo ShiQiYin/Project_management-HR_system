@@ -6,7 +6,7 @@ use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Leave extends Model
+class Leave extends Model 
 {
 
     use HasFactory;
@@ -18,7 +18,7 @@ class Leave extends Model
      * @var string[]
      */
     protected $fillable = [
-        'user_id', 'category', 'start_date', 'end_date', 'reason', 'status'
+        'user_id', 'category', 'start_date', 'end_date', 'reason', 'status', 'days'
     ];
 
     /**
@@ -38,5 +38,10 @@ class Leave extends Model
      */
     protected $casts = [
     ];
+
+    public function category()
+    {
+        return $this->belongsTo('App\User', 'user_id', 'id');
+    }
 
 }

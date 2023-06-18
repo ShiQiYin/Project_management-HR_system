@@ -18,7 +18,8 @@ class EditLeave extends EditRecord
     protected function getActions(): array
     {
         return [
-            Actions\EditAction::make(),
+            // Actions\EditAction::make(),
+            Actions\DeleteAction::make(),
         ];
     }
 

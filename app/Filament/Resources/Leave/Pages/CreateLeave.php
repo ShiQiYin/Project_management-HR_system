@@ -5,6 +5,8 @@ namespace App\Filament\Resources\Leave\Pages;
 use App\Filament\Resources\Leave\LeaveResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\CreateRecord;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class CreateLeave extends CreateRecord
 {
@@ -14,13 +16,34 @@ class CreateLeave extends CreateRecord
     protected function getActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            // Actions\CreateAction::make()->label('Apply Leave'),
         ];
     }
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
+        
+        clock()->info(`'Committing transaction' `, $data);
+
+
+        clock()->event('Committing transaction', $data['category']);
+
+        // $data['days'] = Carbon::parse($data('end_date'))->diffInDays(Carbon::parse($data('start_date'))) + 1;
+        
+        DB::table('leaves_type')
+            ->where('user_id', auth()->user()->id)
+            ->decrementEach([
+                'al' =>  $data['category'] == "al" ? $data['days'] : 0,
+                'sl' =>  $data['category'] == "sl" ? $data['days'] : 0,
+                'hl' =>  $data['category'] == 'hl' ? $data['days'] : 0,
+                'pl' =>  $data['category'] == "pl" ? $data['days'] : 0,
+                'cl' =>  $data['category'] == "cl" ? $data['days'] : 0,
+
+            ]);
+
+
         $data['user_id'] = auth()->user()->id;
+        $data['updated_at'] = Carbon::now()->toDateTimeString();
         return $data;
     }
 
@@ -46,11 +69,28 @@ class CreateLeave extends CreateRecord
 
     protected function beforeCreate()
     {
+        clock()->info("User logged in!");
+
+
         // Runs before the form fields are saved to the database.
     }
 
     protected function afterCreate()
     {
+        $leaves = [
+            // 'id' => Str::uuid()->toString(),
+            // 'user_id' => $id,
+            'al' => 12,
+            'sl' => 12,
+            'hl' => 60,
+            'pl' => 14,
+            'cl' => 3,
+            'updated_at' => Carbon::now()->toDateTimeString()
+        ];
+
+        // DB::table('leaves_type')
+        //     ->where('user_id', auth()->user()->id)
+        //     ->decrement('al', 1);
         // Runs after the form fields are saved to the database.
     }
 

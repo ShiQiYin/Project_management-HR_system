@@ -17,11 +17,13 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
 use Closure;
 use Carbon\Carbon;
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Support\Facades\DB;
 
 class PendingLeaveResource extends Resource
 {
     protected static ?string $model = Leave::class;
-
+    // protected static ?string $resource = DB::table('leave');
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
     protected static ?string $navigationLabel = 'Pending Leaves';
@@ -82,8 +84,18 @@ class PendingLeaveResource extends Resource
     {
         return $table
             ->columns([
+                
                 Tables\Columns\TextColumn::make('user_id')->label('user_id'),
-                Tables\Columns\TextColumn::make('category')->label('category'),
+                Tables\Columns\TextColumn::make('name')->label('name'),
+                Tables\Columns\TextColumn::make('category')
+                    ->label('category')
+                    ->enum([
+                        'al' => 'Annual',
+                        'sl' => 'Sick',
+                        'hl' => 'Hospitalisation',
+                        'pl' => 'Paternity',
+                        'cl' => 'Compassionate leave',
+                    ]),
                 Tables\Columns\TextColumn::make('start_date')->label('Start Date'),
                 Tables\Columns\TextColumn::make('end_date')->label('End Date'),
                 Tables\Columns\TextColumn::make('reason')->label('Reason'),

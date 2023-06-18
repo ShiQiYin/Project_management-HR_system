@@ -19,10 +19,13 @@ return new class extends Migration
             $table->string('category');
             $table->date('start_date');
             $table->date('end_date');
+            $table->integer('days');
             $table->string('reason')->nullable();
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
+            $table->timestamp('approved_date')->nullable();
             $table->string('status')->default('pending');
+            $table->foreignUuid('approval')->nullable()->index();
         });
 
         Schema::table('leaves',function ($table) {

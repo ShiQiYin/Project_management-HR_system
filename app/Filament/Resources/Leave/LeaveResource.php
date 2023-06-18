@@ -17,6 +17,9 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
 use Closure;
 use Carbon\Carbon;
+use Filament\Pages\Actions;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Contracts\HasTable;
 
 class LeaveResource extends Resource
 {
@@ -31,6 +34,13 @@ class LeaveResource extends Resource
     {
         return true;
     }
+
+    // protected function getTableActions(): array
+    // {
+    //     return [
+    //         Actions\CreateAction::make()->label('Apply Leave'),
+    //     ];
+    // }
 
     public static function form(Form $form): Form
     {
@@ -61,7 +71,7 @@ class LeaveResource extends Resource
                     ->afterStateHydrated(function (Closure $set, $get, $state) {
                         $set('days',  Carbon::parse($get('end_date'))->diffInDays(Carbon::parse($get('start_date'))) + 1 );
                     }),
-                Forms\Components\TextInput::make('days')->disabled()->dehydrated(false)->label('Day(s)'),
+                Forms\Components\TextInput::make('days')->disabled()->label('Day(s)'),
                 Forms\Components\TextInput::make('reason')->required()->label('Reason'),
                 // Forms\Components\TextInput::make('user_id')->required()->label('User Id')->default(auth()->user()->id)->hidden(),
 
@@ -81,7 +91,15 @@ class LeaveResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('category')->label('category'),
+                Tables\Columns\TextColumn::make('category')
+                    ->label('category')
+                    ->enum([
+                        'al' => 'Annual',
+                        'sl' => 'Sick',
+                        'hl' => 'Hospitalisation',
+                        'pl' => 'Paternity',
+                        'cl' => 'Compassionate leave',
+                    ]),
                 Tables\Columns\TextColumn::make('start_date')->label('Start Date'),
                 Tables\Columns\TextColumn::make('end_date')->label('End Date'),
                 Tables\Columns\TextColumn::make('reason')->label('Reason'),
@@ -105,11 +123,14 @@ class LeaveResource extends Resource
                 // Filter::make('organizations', fn ($query) => $query->where('type', 'organization')),
             ])
             ->actions([
-                // Tables\Actions\EditAction::make(),
+                // Tables\Actions\CreateAction::make()->label('Apply Leave'),
+                // Actions\CreateAction::make()->label('Apply Leave'),
+
             ])
             ->bulkActions([
                 // Tables\Actions\DeleteBulkAction::make(),
             ]);
+            
     }
 
     public static function getRelations(): array

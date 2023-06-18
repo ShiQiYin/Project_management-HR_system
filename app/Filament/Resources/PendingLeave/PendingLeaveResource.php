@@ -18,15 +18,17 @@ use Filament\Forms\Components\Select;
 use Closure;
 use Carbon\Carbon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\BadgeColumn;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
 class PendingLeaveResource extends Resource
 {
     protected static ?string $model = Leave::class;
     // protected static ?string $resource = DB::table('leave');
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
 
-    protected static ?string $navigationLabel = 'Pending Leaves';
+    protected static ?string $navigationLabel = 'Leave Application(s)';
 
     public static ?string $slug = 'pendingleave';
 
@@ -36,12 +38,36 @@ class PendingLeaveResource extends Resource
         return true;
     }
 
+    protected static function getNavigationBadge(): ?string
+    {
+        return DB::table('leaves')
+        ->where('status', 'pending')
+        ->count();
+    }
+
     public static function form(Form $form): Form
     {
         return $form->schema([
+            Section::make('Status')->schema([
+
+                Forms\Components\TextInput::make('status')->required()->label('Status')->hiddenOn('create')->disabledOn('edit'),
+                Forms\Components\DatePicker::make('approved_date')->required()->label('Processed date')->displayFormat('d Mon, Yr (D)')->hiddenOn('create')->disabledOn('edit'),
+                Forms\Components\TextInput::make('name')->required()->label('Processed by')->disabledOn('edit')->hiddenOn('create'),
+
+                // Select::make('status')
+                // ->options([
+                //     'reject' => 'reject',
+                //     'approved' => 'approved',
+
+                // ])
+                // ->label("Status"),
+                // Forms\Components\DatePicker::make('approved_date')->required()->label('Processed date')->hiddenOn('create')->disabledOn('edit'),
+                // Forms\Components\TextInput::make('name')->required()->label('Processed by')->disabledOn('edit')->hiddenOn('create'),
+
+            ])->hiddenOn('create'),
             Section::make('Request Leave')
             ->schema([
-                Forms\Components\TextInput::make('user_id')->disabled()->label('user_id'),
+                Forms\Components\TextInput::make('name')->disabled()->label('name'),
                 Select::make('category')
                 ->options([
                     'al' => 'Annual',
@@ -52,30 +78,17 @@ class PendingLeaveResource extends Resource
                 ])
                 ->disabled()
                 ->label("Leave Type"),
-                Forms\Components\DatePicker::make('start_date')->disabled()->reactive()->required()->minDate('today')->displayFormat('d/m/Y')->label('Start Date'),
+                Forms\Components\DatePicker::make('start_date')->disabled()->reactive()->required()->minDate('today')->displayFormat('d Mon, Yr (D)')->label('Start Date'),
                 Forms\Components\DatePicker::make('end_date')->disabled()
                     ->required()
-                    ->displayFormat('d/m/Y')
+                    ->displayFormat('d Mon, Yr (D)')
                     ->minDate('start_date')
                     ->afterOrEqual('start_date')
                     ->label('End Date')
-                    ->reactive()
-                    ->afterStateUpdated(function (Closure $set, $get, $state) {
-                        $set('days',  Carbon::parse($get('end_date'))->diffInDays(Carbon::parse($get('start_date'))) );
-                    })    
-                    ->afterStateHydrated(function (Closure $set, $get, $state) {
-                        $set('days',  Carbon::parse($get('end_date'))->diffInDays(Carbon::parse($get('start_date'))) );
-                    }),
-                Forms\Components\TextInput::make('days')->disabled()->dehydrated(false)->label('Day(s)'),
+                    ->displayFormat('d Mon, Yr (D)')
+                    ->reactive(),
+                Forms\Components\TextInput::make('days')->disabled()->label('Day(s)'),
                 Forms\Components\TextInput::make('reason')->required()->label('Reason')->disabled(),
-                Select::make('status')
-                ->options([
-                    'reject' => 'reject',
-                    'approved' => 'approved',
-
-                ])
-                ->label("Status"),
-            // ]),
             ]),
         ]);
     }
@@ -84,9 +97,8 @@ class PendingLeaveResource extends Resource
     {
         return $table
             ->columns([
-                
-                Tables\Columns\TextColumn::make('user_id')->label('user_id'),
-                Tables\Columns\TextColumn::make('name')->label('name'),
+                Tables\Columns\TextColumn::make('name')->label('Name')
+                ->sortable(),
                 Tables\Columns\TextColumn::make('category')
                     ->label('category')
                     ->enum([
@@ -95,10 +107,18 @@ class PendingLeaveResource extends Resource
                         'hl' => 'Hospitalisation',
                         'pl' => 'Paternity',
                         'cl' => 'Compassionate leave',
-                    ]),
-                Tables\Columns\TextColumn::make('start_date')->label('Start Date'),
-                Tables\Columns\TextColumn::make('end_date')->label('End Date'),
-                Tables\Columns\TextColumn::make('reason')->label('Reason'),
+                    ])
+                    ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('start_date')->label('Start Date')
+                ->sortable()
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('end_date')->label('End Date')->sortable()
+                ->searchable(),
+                Tables\Columns\TextColumn::make('days')->label('day(s)')->sortable()
+                ->searchable(),
+                Tables\Columns\TextColumn::make('reason')->label('Reason')->sortable()
+                ->searchable(),
                 Tables\Columns\TextColumn::make('status')
                     ->label('Status')
                     ->extraAttributes(function (Leave $record) { 
@@ -108,11 +128,26 @@ class PendingLeaveResource extends Resource
                         if ($record->status === "approved") {
                             return ['class' => 'bg-success-500'];
                         }
-                        if ($record->status === "reject") {
+                        if ($record->status === "rejected") {
+                            return ['class' => 'bg-danger-500'];
+                        }
+                        if ($record->status === "canceled") {
                             return ['class' => 'bg-danger-500'];
                         }
                         return [];
-                    }),
+                    })->sortable()
+                    ->searchable(),
+                    BadgeColumn::make('status')
+                ->colors([
+                    'primary',
+                    'secondary' => static fn ($state): bool => $state === 'canceled',
+                    'warning' => static fn ($state): bool => $state === 'pending',
+                    'success' => static fn ($state): bool => $state === 'approved',
+                    'danger' => static fn ($state): bool => $state === 'rejected',
+                ])->sortable()
+                ->searchable(),
+                    Tables\Columns\TextColumn::make('approved_date')->label('Processed date'),
+                    Tables\Columns\TextColumn::make('approval')->label('Processed by'),
             ])
             ->filters([
                 // Filter::make('individuals', fn ($query) => $query->where('type', 'individual')),
@@ -141,4 +176,21 @@ class PendingLeaveResource extends Resource
             'edit' => Pages\EditPendingLeave::route('/{record}/edit'),
         ];
     }
+
+    protected function getTableActions(): array
+    {
+        return [
+            // ...
+        ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->select('leaves.*', 'u.name as name', 'a.name as approval')
+            ->where('status', '<>', 'canceled')
+            ->join('users as u','leaves.user_id' ,'u.id')
+            ->leftJoin('users as a','leaves.approval','=','a.id');;
+    }
+    
 }

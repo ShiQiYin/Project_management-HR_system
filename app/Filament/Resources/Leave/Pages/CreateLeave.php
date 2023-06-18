@@ -21,15 +21,7 @@ class CreateLeave extends CreateRecord
     }
 
     protected function mutateFormDataBeforeCreate(array $data): array
-    {
-        
-        clock()->info(`'Committing transaction' `, $data);
-
-
-        clock()->event('Committing transaction', $data['category']);
-
-        // $data['days'] = Carbon::parse($data('end_date'))->diffInDays(Carbon::parse($data('start_date'))) + 1;
-        
+    {        
         DB::table('leaves_type')
             ->where('user_id', auth()->user()->id)
             ->decrementEach([
@@ -92,6 +84,11 @@ class CreateLeave extends CreateRecord
         //     ->where('user_id', auth()->user()->id)
         //     ->decrement('al', 1);
         // Runs after the form fields are saved to the database.
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
     }
 
 }

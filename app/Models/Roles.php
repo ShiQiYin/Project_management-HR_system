@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable implements FilamentUser
+class Roles extends Model
 {
     use HasFactory;
     use HasRoles;
@@ -22,10 +23,10 @@ class User extends Authenticatable implements FilamentUser
      * @var string[]
      */
     protected $fillable = [
-        'userid',
-        'email',
         'name',
-        'password',
+        // 'email',
+        // 'name',
+        // 'password',
         // 'roles'
     ];
 
@@ -35,7 +36,7 @@ class User extends Authenticatable implements FilamentUser
      * @var array
      */
     protected $hidden = [
-        'password'
+        // 'password'
     ];
 
     /**

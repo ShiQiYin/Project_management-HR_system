@@ -1091,7 +1091,7 @@ You may also customize the display format of the field, separately from the form
 ```php
 use Filament\Forms\Components\DatePicker;
 
-DatePicker::make('date_of_birth')->displayFormat('d/m/Y')
+DatePicker::make('date_of_birth')->displayFormat('d Mon, Yr (D)')
 ```
 
 ![](https://user-images.githubusercontent.com/41773797/147613473-51ffe805-2a7f-47e5-af8b-e7871e9c5a85.png)

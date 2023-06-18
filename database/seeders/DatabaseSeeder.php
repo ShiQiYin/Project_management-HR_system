@@ -35,8 +35,10 @@ class DatabaseSeeder extends Seeder
         // Create permissions
         // Format: '{CRUD}-{Resource}' => {ArrayOfRoles}
         $permissions = [
-            'update-password' => ['appuser'],
-            'approve-leave' => ['appuser', 'manager']
+            'update-password' => ['appuser', 'manager'],
+            'approve-leave' => ['manager'],
+            'add-user' => [],
+            // 'approve-leave' => ['manager']
         ];
         $this->createAndAssociatePermissions($permissions);
     }
@@ -60,6 +62,24 @@ class DatabaseSeeder extends Seeder
         );
     }
 
+    private function seed_roles($roles, $id) 
+    {
+
+
+        $r_id = DB::table('roles')
+            ->select('r_id')->where('name', $roles)->get()->pluck('r_id')[0];
+
+        $data = [
+            'role_id' => $r_id,
+            'model_type' => 'App\Models\User',
+            'model_uuid' => $id
+        ];
+
+        DB::table('model_has_roles')->insert(
+            $data
+        );
+    }
+
     private function seedUsers()
     {
         $admin = $this->createUser('admin', 'Administrator');
@@ -71,8 +91,8 @@ class DatabaseSeeder extends Seeder
         $appuser->assignRole('appuser');
         $this->seedLeavesNumber($appuser->id);
 
-        $appuser = $this->createUser('manager', 'Manager');
-        $appuser->assignRole('manager');
-        $this->seedLeavesNumber($appuser->id);
+        $manager = $this->createUser('manager', 'Manager');
+        $manager->assignRole('manager');
+        $this->seedLeavesNumber($manager->id);
     }
 }

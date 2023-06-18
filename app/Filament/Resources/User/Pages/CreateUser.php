@@ -5,6 +5,9 @@ namespace App\Filament\Resources\User\Pages;
 use App\Filament\Resources\User\UserResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class CreateUser extends CreateRecord
 {
@@ -38,6 +41,21 @@ class CreateUser extends CreateRecord
 
     protected function afterCreate()
     {
+        $leaves = [
+            'id' => Str::uuid()->toString(),
+            'user_id' => $this->record['id'],
+            'al' => 14,
+            'sl' => 14,
+            'hl' => 60,
+            'pl' => 14,
+            'cl' => 3,
+            'created_at' => Carbon::now()->toDateTimeString(),
+            'updated_at' => Carbon::now()->toDateTimeString()
+        ];
+        DB::table('leaves_type')->insert(
+            $leaves
+        );
+
         // Runs after the form fields are saved to the database.
     }
 

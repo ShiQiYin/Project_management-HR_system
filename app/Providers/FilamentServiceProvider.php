@@ -12,6 +12,8 @@ use Filament\Navigation\NavigationItem;
 use App\Filament\Resources\Customer\CustomerResource;
 use App\Filament\Resources\Leave\LeaveResource;
 use App\Filament\Resources\PendingLeave\PendingLeaveResource;
+use App\Filament\Resources\PermissionsResource\PermissionsResource;
+use App\Filament\Resources\RolesResource\RolesResource;
 use App\Filament\Resources\User\UserResource;
 use Filament\Navigation\NavigationGroup;
 
@@ -57,14 +59,21 @@ class FilamentServiceProvider extends ServiceProvider
                             ->activeIcon('heroicon-s-home')
                             ->isActiveWhen(fn(): bool => request()->routeIs('filament.pages.dashboard')),
                     ]),
-                NavigationGroup::make('')
+                    $user->can('approve-leave') ? NavigationGroup::make('')
                     ->items([
                         // ...CustomerResource::getNavigationItems(),
                         ...LeaveResource::getNavigationItems(),
                         ...PendingLeaveResource::getNavigationItems(),
                         // $user->can('pending-leave') ? PendingLeaveResource::getNavigationItems() : null, 
-                    ]),
-                NavigationGroup::make('Settings')
+                    ]) :
+                    NavigationGroup::make('')
+                    ->items([
+                        // ...CustomerResource::getNavigationItems(),
+                        ...LeaveResource::getNavigationItems(),
+                        // $user->can('pending-leave') ? PendingLeaveResource::getNavigationItems() : null, 
+                    ])
+                    ,
+                $user->can('update-password') ? NavigationGroup::make('Settings')
                     ->items([
                         $user->can('update-password') ?
                         NavigationItem::make('Update Personal Information')
@@ -72,18 +81,23 @@ class FilamentServiceProvider extends ServiceProvider
                                 ->icon('heroicon-o-cog')
                                 ->activeIcon('heroicon-s-cog')
                                 ->isActiveWhen(fn() : bool => request()->fullUrl() == $update_password_url) : null,
-                    ]),
-                $user->can('update-password') ? 
-                    NavigationGroup::make('Admin')
+                    ]) :
+                    NavigationGroup::make(''),
+                 
+                    $user->can('add-user') ? NavigationGroup::make('Admin')
                         ->items([
-                            ...AccountResource::getNavigationItems()
+                            ...AccountResource::getNavigationItems(),
+                            ...RolesResource::getNavigationItems(),
+                            ...PermissionsResource::getNavigationItems(),
 
                                 // NavigationItem::make('Account Management')
                                 //     ->url($update_password_url)
                                 //     ->icon('heroicon-o-cog')
                                 //     ->activeIcon('heroicon-s-cog')
                                 //     ->isActiveWhen(fn() : bool => request()->fullUrl() == $update_password_url)
-                        ]): null
+                        ]) :
+                    NavigationGroup::make('')
+                        
             ]);
         });
     }

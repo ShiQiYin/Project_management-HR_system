@@ -61,7 +61,7 @@ class CustomerResource extends Resource
                                             'individual' => 'Individual',
                                             'organization' => 'Organization',
                                         ]),
-                                    Forms\Components\DatePicker::make('birthday')->required()->displayFormat('d/m/Y')->label('Birthdate'),
+                                    Forms\Components\DatePicker::make('birthday')->required()->displayFormat('d Mon, Yr (D)')->label('Birthdate'),
                                     FileUpload::make('attachment')
                                         ->disk('local')
                                         ->directory('customer')

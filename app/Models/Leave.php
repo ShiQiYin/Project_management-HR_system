@@ -11,6 +11,7 @@ class Leave extends Model
 
     use HasFactory;
     use Uuids;
+    protected $primaryKey = 'leaves_id';
 
     /**
      * The attributes that are mass assignable.
@@ -18,7 +19,7 @@ class Leave extends Model
      * @var string[]
      */
     protected $fillable = [
-        'user_id', 'category', 'start_date', 'end_date', 'reason', 'status', 'days'
+        'user_id', 'category', 'start_date', 'end_date', 'reason', 'status', 'days', 'approval', 'approved_date'
     ];
 
     /**

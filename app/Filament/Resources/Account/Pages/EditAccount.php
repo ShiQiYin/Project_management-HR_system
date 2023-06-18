@@ -6,6 +6,11 @@ use App\Filament\Resources\Account\AccountResource;
 use App\Providers\RouteServiceProvider;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Pages\Actions;
+use Illuminate\Support\Facades\DB;
+use Filament\Pages\Actions\Action;
+use App\Models\User;
+use Illuminate\Database\QueryException;
+use Carbon\Carbon;
 
 class EditAccount extends EditRecord
 {
@@ -17,6 +22,20 @@ class EditAccount extends EditRecord
     protected static ?string $modelLabel = 'User';
 
     protected static ?string $title = 'Account Management';
+
+    // protected function getFormActions(): array
+    // {
+    //     return [
+    //         // EditAction::make(),
+    //         // Actions\EditAction::make(),
+    //         Action::make('Edit')
+    //             ->requiresConfirmation()
+    //             ->action('editAccount') 
+    //     ];
+    //     // return array_merge(parent::getFormActions(), [
+    //     //     Action::make('close')->action('saveAndClose'),
+    //     // ]);
+    // }
 
     protected function getActions(): array
     {
@@ -57,5 +76,22 @@ class EditAccount extends EditRecord
     protected function getRedirectUrl(): string
     {
         return RouteServiceProvider::LOGIN;
+    }
+
+    public function editAccount(array $data): void
+    {
+
+        // $user = User::findBy;
+        // $user->assignRole($this->record["roles"]);
+
+        // $this->record['status'] = 'canceled';
+        // $this->record['user_id'] = auth()->user()->id;
+        // $this->record['updated_at'] = Carbon::now()->toDateTimeString();   
+        // $this->record->save();
+
+
+        // DB::table('users')->insert(
+        //     $leaves
+        // );
     }
 }

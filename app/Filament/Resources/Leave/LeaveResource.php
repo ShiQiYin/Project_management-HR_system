@@ -19,15 +19,16 @@ use Closure;
 use Carbon\Carbon;
 use Filament\Pages\Actions;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Contracts\HasTable;
+use Filament\Tables\Columns\BadgeColumn;
+use Illuminate\Database\Eloquent\Builder;
 
 class LeaveResource extends Resource
 {
     protected static ?string $model = Leave::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-document';
 
-    protected static ?string $navigationLabel = 'Leaves';
+    protected static ?string $navigationLabel = 'Request Leave';
 
 
     public function isTableSearchable(): bool
@@ -45,7 +46,13 @@ class LeaveResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Section::make('Request Leave')
+            Section::make('Status')->schema([
+                Forms\Components\TextInput::make('status')->label('Status')->hiddenOn('create')->disabledOn('edit'),
+                Forms\Components\DatePicker::make('approved_date')->label('Processed date')->displayFormat('d Mon, Yr (D)')->hiddenOn('create')->disabledOn('edit'),
+                Forms\Components\TextInput::make('name')->label('Processed by')->disabledOn('edit')->hiddenOn('create'),
+
+            ])->hiddenOn('create'),
+            Section::make('Leave Information')
             ->schema([
                 Select::make('category')
                 ->options([
@@ -56,15 +63,17 @@ class LeaveResource extends Resource
                     'cl' => 'Compassionate leave',
 
                 ])
-                ->label("Leave Type"),
-                Forms\Components\DatePicker::make('start_date')->reactive()->required()->minDate('today')->displayFormat('d/m/Y')->label('Start Date'),
+                ->label("Leave Type")
+                ->disabledOn('edit'),
+                Forms\Components\DatePicker::make('start_date')->disabledOn('edit')->reactive()->required()->minDate('today')->displayFormat('d Mon, Yr (D)')->label('Start Date'),
                 Forms\Components\DatePicker::make('end_date')
                     ->required()
-                    ->displayFormat('d/m/Y')
+                    ->displayFormat('d Mon, Yr (D)')
                     ->minDate('start_date')
                     ->afterOrEqual('start_date')
                     ->label('End Date')
                     ->reactive()
+                    ->disabledOn('edit')
                     ->afterStateUpdated(function (Closure $set, $get, $state) {
                         $set('days',  Carbon::parse($get('end_date'))->diffInDays(Carbon::parse($get('start_date'))) + 1 );
                     })    
@@ -72,7 +81,8 @@ class LeaveResource extends Resource
                         $set('days',  Carbon::parse($get('end_date'))->diffInDays(Carbon::parse($get('start_date'))) + 1 );
                     }),
                 Forms\Components\TextInput::make('days')->disabled()->label('Day(s)'),
-                Forms\Components\TextInput::make('reason')->required()->label('Reason'),
+                Forms\Components\TextInput::make('reason')->required()->label('Reason')->disabledOn('edit'),
+
                 // Forms\Components\TextInput::make('user_id')->required()->label('User Id')->default(auth()->user()->id)->hidden(),
 
                 FileUpload::make('attachment')
@@ -82,6 +92,7 @@ class LeaveResource extends Resource
                     ->enableOpen()
                     ->enableDownload()
                     ->visibility('public')
+                    ->disabledOn('edit')
             // ]),
             ]),
         ]);
@@ -99,24 +110,25 @@ class LeaveResource extends Resource
                         'hl' => 'Hospitalisation',
                         'pl' => 'Paternity',
                         'cl' => 'Compassionate leave',
-                    ]),
+                    ])
+                    ->sortable()
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('start_date')->label('Start Date'),
                 Tables\Columns\TextColumn::make('end_date')->label('End Date'),
+                Tables\Columns\TextColumn::make('days')->label('day(s)')->sortable()
+                ->searchable(),
                 Tables\Columns\TextColumn::make('reason')->label('Reason'),
-                Tables\Columns\TextColumn::make('status')
-                    ->label('Status')
-                    ->extraAttributes(function (Leave $record) { 
-                        if ($record->status === "pending") {
-                            return ['class' => 'bg-warning-500'];
-                        }
-                        if ($record->status === "approved") {
-                            return ['class' => 'bg-success-500'];
-                        }
-                        if ($record->status === "reject") {
-                            return ['class' => 'bg-danger-500'];
-                        }
-                        return [];
-                    }),
+                BadgeColumn::make('status')
+                ->colors([
+                    'primary',
+                    'secondary' => static fn ($state): bool => $state === 'canceled',
+                    'warning' => static fn ($state): bool => $state === 'pending',
+                    'success' => static fn ($state): bool => $state === 'approved',
+                    'danger' => static fn ($state): bool => $state === 'rejected',
+                ])->sortable()
+                ->searchable(),
+                Tables\Columns\TextColumn::make('approved_date')->label('Processed date'),
+                Tables\Columns\TextColumn::make('name')->label('Processed by'),
             ])
             ->filters([
                 // Filter::make('individuals', fn ($query) => $query->where('type', 'individual')),
@@ -148,4 +160,12 @@ class LeaveResource extends Resource
             'edit' => Pages\EditLeave::route('/{record}/edit'),
         ];
     }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->leftJoin('users as u','approval','=','u.id')
+            ->where('user_id', auth()->user()->id);
+    }
+
 }

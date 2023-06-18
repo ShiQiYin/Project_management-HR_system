@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('leaves', function (Blueprint $table) {
-            $table->string('id')->primary();
+            $table->string('leaves_id')->primary();
             $table->foreignUuid('user_id')->nullable()->index();
             $table->string('category');
             $table->date('start_date');
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('reason')->nullable();
             $table->timestamp('created_at')->nullable();
             $table->timestamp('updated_at')->nullable();
-            $table->timestamp('approved_date')->nullable();
+            $table->timestamp('approved_date')->nullable(); 
             $table->string('status')->default('pending');
             $table->foreignUuid('approval')->nullable()->index();
         });

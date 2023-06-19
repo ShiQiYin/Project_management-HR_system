@@ -31,7 +31,7 @@ class PendingLeaveResource extends Resource
     // protected static ?string $resource = DB::table('leave');
     protected static ?string $navigationIcon = 'heroicon-o-document-duplicate';
 
-    protected static ?string $navigationLabel = 'Leave Application(s)';
+    protected static ?string $navigationLabel = 'Pending Leave request(s)';
 
     public static ?string $slug = 'pendingleave';
 

@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Account\Pages;
 
 use App\Filament\Resources\Account\AccountResource;
 use App\Filament\Resources\PositionResource\PositionResource;
+use App\Models\Position;
 use App\Providers\RouteServiceProvider;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Pages\Actions;
@@ -40,18 +41,20 @@ class EditAccount extends EditRecord
 
     protected function beforeFill()
     {
-        Notification::make()
-        ->warning()
-        ->title('You don\'t have any records for positions')
-        ->body('Create at least one record to continue.')
-        ->persistent()
-        ->actions([
-            NotificationAction::make('createPositions')
-                ->button()
-                ->url(PositionResource::getUrl('create'), shouldOpenInNewTab: false),
-        ])
-        ->send();
-        // Runs before the form fields are populated with their default values.
+        if ( Position::count() === 0) {
+            Notification::make()
+                ->warning()
+                ->title('You don\'t have any records for positions')
+                ->body('Create at least one record to continue.')
+                ->persistent()
+                ->actions([
+                    NotificationAction::make('createPositions')
+                        ->button()
+                        ->url(PositionResource::getUrl('create'), shouldOpenInNewTab: false),
+                ])
+                ->send();
+ 
+        }
     }
 
     protected function afterFill()

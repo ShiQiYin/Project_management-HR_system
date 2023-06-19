@@ -59,9 +59,5 @@ class Roles extends Model
         // empty
     ];
 
-    public function canAccessFilament(): bool
-    {
-        // TODO: Edit based on permission
-        return true;
-    }
+
 }

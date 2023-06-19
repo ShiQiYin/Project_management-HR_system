@@ -17,4 +17,14 @@ class ListRoles extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    public function viewAny(): bool
+    {
+        return false;
+    }
+
+    public function view(): bool
+    {
+        return false;
+    }
 }

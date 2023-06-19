@@ -21,5 +21,5 @@ class CreateRole extends CreateRecord
         $data['guard_name'] = 'web';
         return $data;
     }
-    
+
 }

@@ -2,8 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\Position;
+use App\Models\Roles;
 use App\Models\Team;
+use App\Models\User;
+use App\Policies\PositionPolicy;
+use App\Policies\RolePolicy;
 use App\Policies\TeamPolicy;
+use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -16,6 +22,9 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Team::class => TeamPolicy::class,
+        Roles::class => RolePolicy::class,
+        Position::class => PositionPolicy::class,
+        User::class => UserPolicy::class,
     ];
 
     /**

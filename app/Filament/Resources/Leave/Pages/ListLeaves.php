@@ -37,6 +37,15 @@ class ListLeaves extends ListRecords
         ];
     }
 
+    public function viewAny(): bool
+    {
+        return false;
+    }
+
+    public function view(): bool
+    {
+        return false;
+    }
 
 
 }

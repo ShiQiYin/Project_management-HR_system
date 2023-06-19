@@ -5,6 +5,8 @@ namespace App\Filament\Resources\Account\Pages;
 use App\Filament\Resources\Account\AccountResource;
 use App\Filament\Resources\PermissionsResource\PermissionsResource;
 use App\Filament\Resources\PositionResource\PositionResource;
+use App\Models\Leave;
+use App\Models\Position;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Str;
@@ -39,7 +41,7 @@ class CreateAccount extends CreateRecord
     protected function beforeFill()
     {
         // Runs before the form fields are populated with their default values.
-        // if (! $livewire->ownerRecord->team->subscribed()) {
+        if ( Position::count() === 0) {
             Notification::make()
                 ->warning()
                 ->title('You don\'t have any records for positions')
@@ -52,7 +54,7 @@ class CreateAccount extends CreateRecord
                 ])
                 ->send();
  
-            // $action->halt();
+        }
         
     }
 

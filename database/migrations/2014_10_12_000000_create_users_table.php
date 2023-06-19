@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('userid')->unique();
             $table->string('name');
             $table->string('password');
+            $table->boolean('isAdmin')->default(false);
             $table->string('email')->unique()->nullable();
             $table->timestamps();
         });

@@ -25,6 +25,7 @@ return new class extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->timestamp('approved_date')->nullable(); 
             $table->string('status')->default('pending');
+            $table->string('attachment')->nullable();
             $table->foreignUuid('approval')->nullable()->index();
         });
 

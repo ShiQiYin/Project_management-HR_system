@@ -14,7 +14,7 @@ class PostsRelationManager extends RelationManager
 {
     protected static string $relationship = 'users';
 
-    protected static ?string $recordTitleAttribute = 'id';
+    protected static ?string $recordTitleAttribute = 'user_id';
 
     public static function form(Form $form): Form
     {

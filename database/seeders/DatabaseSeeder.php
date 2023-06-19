@@ -62,24 +62,6 @@ class DatabaseSeeder extends Seeder
         );
     }
 
-    private function seed_roles($roles, $id) 
-    {
-
-
-        $r_id = DB::table('roles')
-            ->select('r_id')->where('name', $roles)->get()->pluck('r_id')[0];
-
-        $data = [
-            'role_id' => $r_id,
-            'model_type' => 'App\Models\User',
-            'model_uuid' => $id
-        ];
-
-        DB::table('model_has_roles')->insert(
-            $data
-        );
-    }
-
     private function seedUsers()
     {
         $admin = $this->createUser('admin', 'Administrator');
@@ -87,12 +69,20 @@ class DatabaseSeeder extends Seeder
         // echo($admin->id)
         $this->seedLeavesNumber($admin->id);
 
-        $appuser = $this->createUser('appuser', 'Application User');
+        $appuser = $this->createUser('appuser', 'Katy Perry');
         $appuser->assignRole('appuser');
         $this->seedLeavesNumber($appuser->id);
 
-        $manager = $this->createUser('manager', 'Manager');
+        $appuser2 = $this->createUser('appuser2', 'Adam Lamber');
+        $appuser2->assignRole('appuser');
+        $this->seedLeavesNumber($appuser2->id);
+
+        $manager = $this->createUser('manager', 'Adele');
         $manager->assignRole('manager');
         $this->seedLeavesNumber($manager->id);
+
+        $manager2 = $this->createUser('manager2', 'Calvin Harris');
+        $manager2->assignRole('manager');
+        $this->seedLeavesNumber($manager2->id);
     }
 }

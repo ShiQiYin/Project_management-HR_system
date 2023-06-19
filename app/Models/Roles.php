@@ -15,7 +15,7 @@ class Roles extends Model
     use HasFactory;
     use HasRoles;
     use Notifiable;
-    use Uuids;
+    // use Uuids;
 
     /**
      * The attributes that are mass assignable.
@@ -24,6 +24,8 @@ class Roles extends Model
      */
     protected $fillable = [
         'name',
+        'id',
+        'guard_name'
         // 'email',
         // 'name',
         // 'password',

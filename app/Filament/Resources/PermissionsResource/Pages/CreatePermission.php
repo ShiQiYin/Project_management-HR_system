@@ -16,4 +16,10 @@ class CreatePermission extends CreateRecord
     {
         return $this->getResource()::getUrl('index');
     }
+
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {        
+        $data['guard_name'] = 'web';
+        return $data;
+    }
 }

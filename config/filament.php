@@ -142,6 +142,7 @@ return [
         'register' => [
             Widgets\AccountWidget::class,
             CustomerResource\Widgets\AdminWidgets::class,
+            CustomerResource\Widgets\LeavesChart::class,
         ],
     ],
 

@@ -23,20 +23,13 @@ class EditAccount extends EditRecord
 
     protected static ?string $title = 'Account Management';
 
-    // protected function getFormActions(): array
+    // protected function mutateFormDataBeforeSave(array $data): array
     // {
-    //     return [
-    //         // EditAction::make(),
-    //         // Actions\EditAction::make(),
-    //         Action::make('Edit')
-    //             ->requiresConfirmation()
-    //             ->action('editAccount') 
-    //     ];
-    //     // return array_merge(parent::getFormActions(), [
-    //     //     Action::make('close')->action('saveAndClose'),
-    //     // ]);
+    //     $data['isAdmin'] = $data['userid'] === 'admin';
+    //     // $data['approval'] =  auth()->user()->id;
+    //     // return [];
+    //     return $data;
     // }
-
     protected function getActions(): array
     {
         return [

@@ -19,7 +19,7 @@ class Leave extends Model
      * @var string[]
      */
     protected $fillable = [
-        'user_id', 'category', 'start_date', 'end_date', 'reason', 'status', 'days', 'approval', 'approved_date'
+        'user_id', 'category', 'start_date', 'end_date', 'reason', 'status', 'days', 'approval', 'approved_date', 'attachment'
     ];
 
     /**
@@ -45,4 +45,13 @@ class Leave extends Model
         return $this->belongsTo('App\User', 'user_id', 'id');
     }
 
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function approvals()
+    {
+        return $this->belongsTo(User::class, 'approval', 'id');
+    }
 }

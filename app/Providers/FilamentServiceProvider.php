@@ -9,13 +9,14 @@ use Illuminate\Support\ServiceProvider;
 use Filament\Navigation\NavigationBuilder;
 use Filament\Navigation\NavigationItem;
 
-use App\Filament\Resources\Customer\CustomerResource;
+use App\Filament\Resources\PositionResource\PositionResource;
 use App\Filament\Resources\Leave\LeaveResource;
 use App\Filament\Resources\PendingLeave\PendingLeaveResource;
 use App\Filament\Resources\PermissionsResource\PermissionsResource;
 use App\Filament\Resources\RolesResource\RolesResource;
 use App\Filament\Resources\User\UserResource;
 use Filament\Navigation\NavigationGroup;
+use Filament\Resources\Resource;
 
 class FilamentServiceProvider extends ServiceProvider
 {
@@ -89,7 +90,7 @@ class FilamentServiceProvider extends ServiceProvider
                             ...AccountResource::getNavigationItems(),
                             ...RolesResource::getNavigationItems(),
                             ...PermissionsResource::getNavigationItems(),
-
+                            ...PositionResource::getNavigationItems(),
                                 // NavigationItem::make('Account Management')
                                 //     ->url($update_password_url)
                                 //     ->icon('heroicon-o-cog')

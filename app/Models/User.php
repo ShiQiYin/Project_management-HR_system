@@ -26,6 +26,7 @@ class User extends Authenticatable implements FilamentUser
         'email',
         'name',
         'password',
+        'isAdmin',
         // 'roles'
     ];
 
@@ -61,4 +62,10 @@ class User extends Authenticatable implements FilamentUser
         // TODO: Edit based on permission
         return true;
     }
+
+    public function positions()
+    {
+        return $this->belongsTo(Position::class, 'id', 'position_id');
+    }
+
 }

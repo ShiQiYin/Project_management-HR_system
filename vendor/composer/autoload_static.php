@@ -184,6 +184,8 @@ class ComposerStaticInitf528857cfba8502429ff5550273d29dd
         'F' => 
         array (
             'Fruitcake\\Cors\\' => 15,
+            'Flowframe\\Trend\\Database\\Factories\\' => 35,
+            'Flowframe\\Trend\\' => 16,
             'Filament\\Tables\\' => 16,
             'Filament\\Support\\' => 17,
             'Filament\\Notifications\\' => 23,
@@ -606,6 +608,14 @@ class ComposerStaticInitf528857cfba8502429ff5550273d29dd
         array (
             0 => __DIR__ . '/..' . '/fruitcake/php-cors/src',
         ),
+        'Flowframe\\Trend\\Database\\Factories\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/flowframe/laravel-trend/database/factories',
+        ),
+        'Flowframe\\Trend\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/flowframe/laravel-trend/src',
+        ),
         'Filament\\Tables\\' => 
         array (
             0 => __DIR__ . '/..' . '/filament/tables/src',
@@ -786,8 +796,10 @@ class ComposerStaticInitf528857cfba8502429ff5550273d29dd
         'App\\Filament\\Resources\\Account\\Pages\\CreateAccount' => __DIR__ . '/../..' . '/app/Filament/Resources/Account/Pages/CreateAccount.php',
         'App\\Filament\\Resources\\Account\\Pages\\EditAccount' => __DIR__ . '/../..' . '/app/Filament/Resources/Account/Pages/EditAccount.php',
         'App\\Filament\\Resources\\Account\\Pages\\ListAccounts' => __DIR__ . '/../..' . '/app/Filament/Resources/Account/Pages/ListAccounts.php',
+        'App\\Filament\\Resources\\CategoryResource\\RelationManagers\\PostsRelationManager' => __DIR__ . '/../..' . '/app/Filament/Resources/CategoryResource/RelationManagers/PostsRelationManager.php',
         'App\\Filament\\Resources\\CustomerResource\\Widgets\\AdminWidgets' => __DIR__ . '/../..' . '/app/Filament/Resources/CustomerResource/Widgets/AdminWidgets.php',
         'App\\Filament\\Resources\\CustomerResource\\Widgets\\LeavesWidgets' => __DIR__ . '/../..' . '/app/Filament/Resources/CustomerResource/Widgets/LeavesWidgets.php',
+        'App\\Filament\\Resources\\CustomerResource\\Widgets\\PendingLeavesWidgets' => __DIR__ . '/../..' . '/app/Filament/Resources/CustomerResource/Widgets/PendingLeavesWidgets.php',
         'App\\Filament\\Resources\\Customer\\CustomerResource' => __DIR__ . '/../..' . '/app/Filament/Resources/Customer/CustomerResource.php',
         'App\\Filament\\Resources\\Customer\\Pages\\CreateCustomer' => __DIR__ . '/../..' . '/app/Filament/Resources/Customer/Pages/CreateCustomer.php',
         'App\\Filament\\Resources\\Customer\\Pages\\EditCustomer' => __DIR__ . '/../..' . '/app/Filament/Resources/Customer/Pages/EditCustomer.php',
@@ -798,6 +810,17 @@ class ComposerStaticInitf528857cfba8502429ff5550273d29dd
         'App\\Filament\\Resources\\Leave\\Pages\\EditLeave' => __DIR__ . '/../..' . '/app/Filament/Resources/Leave/Pages/EditLeave.php',
         'App\\Filament\\Resources\\Leave\\Pages\\ListLeaves' => __DIR__ . '/../..' . '/app/Filament/Resources/Leave/Pages/ListLeaves.php',
         'App\\Filament\\Resources\\Leave\\Widgets\\LeaveOverview' => __DIR__ . '/../..' . '/app/Filament/Resources/Leave/Widgets/LeaveOverview.php',
+        'App\\Filament\\Resources\\PendingLeave\\Pages\\EditPendingLeave' => __DIR__ . '/../..' . '/app/Filament/Resources/PendingLeave/Pages/EditPendingLeave.php',
+        'App\\Filament\\Resources\\PendingLeave\\Pages\\ListPendingLeaves' => __DIR__ . '/../..' . '/app/Filament/Resources/PendingLeave/Pages/ListPendingLeaves.php',
+        'App\\Filament\\Resources\\PendingLeave\\PendingLeaveResource' => __DIR__ . '/../..' . '/app/Filament/Resources/PendingLeave/PendingLeaveResource.php',
+        'App\\Filament\\Resources\\PermissionsResource\\Pages\\CreatePermission' => __DIR__ . '/../..' . '/app/Filament/Resources/PermissionsResource/Pages/CreatePermission.php',
+        'App\\Filament\\Resources\\PermissionsResource\\Pages\\EditPermission' => __DIR__ . '/../..' . '/app/Filament/Resources/PermissionsResource/Pages/EditPermission.php',
+        'App\\Filament\\Resources\\PermissionsResource\\Pages\\ListPermissions' => __DIR__ . '/../..' . '/app/Filament/Resources/PermissionsResource/Pages/ListPermissions.php',
+        'App\\Filament\\Resources\\PermissionsResource\\PermissionsResource' => __DIR__ . '/../..' . '/app/Filament/Resources/PermissionsResource/PermissionsResource.php',
+        'App\\Filament\\Resources\\RolesResource\\Pages\\CreateRole' => __DIR__ . '/../..' . '/app/Filament/Resources/RolesResource/Pages/CreateRole.php',
+        'App\\Filament\\Resources\\RolesResource\\Pages\\EditRole' => __DIR__ . '/../..' . '/app/Filament/Resources/RolesResource/Pages/EditRole.php',
+        'App\\Filament\\Resources\\RolesResource\\Pages\\ListRoles' => __DIR__ . '/../..' . '/app/Filament/Resources/RolesResource/Pages/ListRoles.php',
+        'App\\Filament\\Resources\\RolesResource\\RolesResource' => __DIR__ . '/../..' . '/app/Filament/Resources/RolesResource/RolesResource.php',
         'App\\Filament\\Resources\\User\\Pages\\CreateUser' => __DIR__ . '/../..' . '/app/Filament/Resources/User/Pages/CreateUser.php',
         'App\\Filament\\Resources\\User\\Pages\\EditUser' => __DIR__ . '/../..' . '/app/Filament/Resources/User/Pages/EditUser.php',
         'App\\Filament\\Resources\\User\\Pages\\ListUsers' => __DIR__ . '/../..' . '/app/Filament/Resources/User/Pages/ListUsers.php',
@@ -818,6 +841,8 @@ class ComposerStaticInitf528857cfba8502429ff5550273d29dd
         'App\\Models\\Leave' => __DIR__ . '/../..' . '/app/Models/Leave.php',
         'App\\Models\\LeaveType' => __DIR__ . '/../..' . '/app/Models/LeaveType.php',
         'App\\Models\\Membership' => __DIR__ . '/../..' . '/app/Models/Membership.php',
+        'App\\Models\\Permissions' => __DIR__ . '/../..' . '/app/Models/Permissions.php',
+        'App\\Models\\Roles' => __DIR__ . '/../..' . '/app/Models/Roles.php',
         'App\\Models\\Team' => __DIR__ . '/../..' . '/app/Models/Team.php',
         'App\\Models\\TeamInvitation' => __DIR__ . '/../..' . '/app/Models/TeamInvitation.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
@@ -2684,6 +2709,13 @@ class ComposerStaticInitf528857cfba8502429ff5550273d29dd
         'Filament\\Widgets\\StatsOverviewWidget\\Card' => __DIR__ . '/..' . '/filament/filament/src/Widgets/StatsOverviewWidget/Card.php',
         'Filament\\Widgets\\TableWidget' => __DIR__ . '/..' . '/filament/filament/src/Widgets/TableWidget.php',
         'Filament\\Widgets\\Widget' => __DIR__ . '/..' . '/filament/filament/src/Widgets/Widget.php',
+        'Flowframe\\Trend\\Adapters\\AbstractAdapter' => __DIR__ . '/..' . '/flowframe/laravel-trend/src/Adapters/AbstractAdapter.php',
+        'Flowframe\\Trend\\Adapters\\MySqlAdapter' => __DIR__ . '/..' . '/flowframe/laravel-trend/src/Adapters/MySqlAdapter.php',
+        'Flowframe\\Trend\\Adapters\\PgsqlAdapter' => __DIR__ . '/..' . '/flowframe/laravel-trend/src/Adapters/PgsqlAdapter.php',
+        'Flowframe\\Trend\\Adapters\\SqliteAdapter' => __DIR__ . '/..' . '/flowframe/laravel-trend/src/Adapters/SqliteAdapter.php',
+        'Flowframe\\Trend\\Trend' => __DIR__ . '/..' . '/flowframe/laravel-trend/src/Trend.php',
+        'Flowframe\\Trend\\TrendServiceProvider' => __DIR__ . '/..' . '/flowframe/laravel-trend/src/TrendServiceProvider.php',
+        'Flowframe\\Trend\\TrendValue' => __DIR__ . '/..' . '/flowframe/laravel-trend/src/TrendValue.php',
         'Fruitcake\\Cors\\CorsService' => __DIR__ . '/..' . '/fruitcake/php-cors/src/CorsService.php',
         'Fruitcake\\Cors\\Exceptions\\InvalidOptionException' => __DIR__ . '/..' . '/fruitcake/php-cors/src/Exceptions/InvalidOptionException.php',
         'GrahamCampbell\\ResultType\\Error' => __DIR__ . '/..' . '/graham-campbell/result-type/src/Error.php',

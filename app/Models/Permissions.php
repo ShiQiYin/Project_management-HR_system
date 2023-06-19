@@ -12,10 +12,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Permissions extends Model
 {
-    use HasFactory;
+    // use HasFactory;
     use HasRoles;
-    use Notifiable;
-    use Uuids;
+    // use Notifiable;
+    // use Uuids;
 
     /**
      * The attributes that are mass assignable.
@@ -24,6 +24,8 @@ class Permissions extends Model
      */
     protected $fillable = [
         'name',
+        'guard_name',
+        // 'id'
         // 'email',
         // 'name',
         // 'password',

@@ -21,6 +21,7 @@ use Filament\Pages\Actions;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\BadgeColumn;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\LeaveResource\RelationManagers;
 
 class LeaveResource extends Resource
 {
@@ -148,7 +149,7 @@ class LeaveResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\UsersRelationManager::class,
         ];
     }
 

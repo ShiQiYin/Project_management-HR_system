@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Leave\Pages;
 
+use App\Filament\Resources\CustomerResource\Widgets;
 use App\Filament\Resources\Leave\LeaveResource;
 use App\Filament\Resources\Leave\Widgets\LeaveOverview;
 use App\Models\Leave;
@@ -32,7 +33,10 @@ class ListLeaves extends ListRecords
     {
         return [
             CustomerResource\Widgets\LeavesWidgets::class,
+            // Widgets\PersonalCalendarWidget::class,
         ];
     }
+
+
 
 }

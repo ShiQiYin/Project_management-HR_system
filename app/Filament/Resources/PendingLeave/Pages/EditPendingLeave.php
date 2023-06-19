@@ -128,7 +128,7 @@ class EditPendingLeave extends EditRecord
     public function reject(array $data): void
     {
         DB::table('leaves_type')
-        ->where('user_id', auth()->user()->id)
+        ->where('user_id', $this->record['user_id'])
         ->incrementEach([
             'al' =>  $this->record['category'] == "al" ? $this->record['days'] : 0,
             'sl' =>  $this->record['category'] == "sl" ? $this->record['days'] : 0,
@@ -138,7 +138,7 @@ class EditPendingLeave extends EditRecord
         ]);
 
         $this->record['status'] = 'rejected';
-        $this->record['user_id'] = auth()->user()->id;
+        // $this->record['user_id'] = auth()->user()->id;
         $this->record['approved_date'] = Carbon::now();
         $this->record['approval'] =  auth()->user()->id;
         $this->record->save();

@@ -65,6 +65,7 @@ class LeaveResource extends Resource
 
                 ])
                 ->label("Leave Type")
+                ->required()
                 ->disabledOn('edit'),
                 Forms\Components\DatePicker::make('start_date')->disabledOn('edit')->reactive()->required()->minDate('today')->displayFormat('d Mon, Yr (D)')->label('Start Date'),
                 Forms\Components\DatePicker::make('end_date')

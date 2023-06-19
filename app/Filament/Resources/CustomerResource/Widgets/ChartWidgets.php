@@ -19,7 +19,7 @@ class LeavesChart extends LineChartWidget
 
     protected function getHeading(): string
     {
-        return 'Blog posts';
+        return 'Leave posts';
     }
  
     protected function getData(): array

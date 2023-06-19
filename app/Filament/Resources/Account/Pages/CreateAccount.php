@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\Account\Pages;
 
 use App\Filament\Resources\Account\AccountResource;
+use App\Filament\Resources\PermissionsResource\PermissionsResource;
+use App\Filament\Resources\PositionResource\PositionResource;
 use Filament\Pages\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Support\Str;
@@ -11,6 +13,9 @@ use Illuminate\Support\Facades\DB;
 use Filament\Pages\Actions\Action;
 use App\Models\User;
 use Illuminate\Database\QueryException;
+use Filament\Notifications\Notification;
+use Filament\Notifications\Actions\Action as NotificationAction;
+
 
 class CreateAccount extends CreateRecord
 {
@@ -34,6 +39,21 @@ class CreateAccount extends CreateRecord
     protected function beforeFill()
     {
         // Runs before the form fields are populated with their default values.
+        // if (! $livewire->ownerRecord->team->subscribed()) {
+            Notification::make()
+                ->warning()
+                ->title('You don\'t have any records for positions')
+                ->body('Create at least one record to continue.')
+                ->persistent()
+                ->actions([
+                    NotificationAction::make('createPositions')
+                        ->button()
+                        ->url(PositionResource::getUrl('create'), shouldOpenInNewTab: false),
+                ])
+                ->send();
+ 
+            // $action->halt();
+        
     }
 
     protected function afterFill()
@@ -114,6 +134,11 @@ class CreateAccount extends CreateRecord
         DB::table('leaves_type')->insert(
             $leaves
         );
+    }
+
+    public function createPositions()
+    {
+        // Runs after the form fields are saved to the database.
     }
 
 

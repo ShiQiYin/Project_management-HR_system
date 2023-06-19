@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\PendingLeave\Pages;
 
+use App\Filament\Resources\CustomerResource\Widgets;
 use App\Filament\Resources\PendingLeave\PendingLeaveResource;
 use App\Filament\Resources\Leave\Widgets\LeaveOverview;
 use App\Models\Leave;

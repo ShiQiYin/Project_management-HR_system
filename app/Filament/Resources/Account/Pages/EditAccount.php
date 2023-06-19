@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Account\Pages;
 
 use App\Filament\Resources\Account\AccountResource;
+use App\Filament\Resources\PositionResource\PositionResource;
 use App\Providers\RouteServiceProvider;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Pages\Actions;
@@ -11,7 +12,8 @@ use Filament\Pages\Actions\Action;
 use App\Models\User;
 use Illuminate\Database\QueryException;
 use Carbon\Carbon;
-
+use Filament\Notifications\Notification;
+use Filament\Notifications\Actions\Action as NotificationAction;
 class EditAccount extends EditRecord
 {
     protected static string $resource = AccountResource::class;
@@ -38,6 +40,17 @@ class EditAccount extends EditRecord
 
     protected function beforeFill()
     {
+        Notification::make()
+        ->warning()
+        ->title('You don\'t have any records for positions')
+        ->body('Create at least one record to continue.')
+        ->persistent()
+        ->actions([
+            NotificationAction::make('createPositions')
+                ->button()
+                ->url(PositionResource::getUrl('create'), shouldOpenInNewTab: false),
+        ])
+        ->send();
         // Runs before the form fields are populated with their default values.
     }
 

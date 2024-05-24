@@ -6,7 +6,7 @@
     'icon',
     'shouldOpenUrlInNewTab' => false,
     'url',
-])
+])git config --system core.longpaths true
 
 <li @class(['filament-sidebar-item overflow-hidden', 'filament-sidebar-item-active' => $active])>
     <a

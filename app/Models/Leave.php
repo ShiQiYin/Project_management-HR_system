@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Leave extends Model 
 {
-
     use HasFactory;
     use Uuids;
+
     protected $primaryKey = 'leaves_id';
 
     /**
@@ -54,4 +54,21 @@ class Leave extends Model
     {
         return $this->belongsTo(User::class, 'approval', 'id');
     }
+
+    /**
+     * Scope a query to only include leaves within a date range.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $startDate
+     * @param  string  $endDate
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByDateRange($query, $startDate, $endDate)
+    {
+        return $query->whereBetween('start_date', [$startDate, $endDate])
+                     ->orWhere(function ($query) use ($startDate, $endDate) {
+                         $query->whereBetween('end_date', [$startDate, $endDate]);
+                     });
+    }
 }
+
